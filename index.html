@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAD Agentforce Workshop: Building a Coral Clouds Service Agent</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Hide sidebar" aria-expanded="true">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="assets/nadlogo.jpg" alt="NAD Logo" class="logo-img">
+            </div>
+            <h4>Agentforce Workshop</h4>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span id="progressPercent">0%</span>
+                    <span class="progress-label">Complete</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-count">
+                    <span id="completedCount">0</span> / <span id="totalCount">0</span> steps
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav" id="sidebarNav">
+            <a href="#overview" class="nav-section-title">Overview</a>
+            <a href="#prework" data-section="prework">Pre-Work</a>
+            <a href="#setup" data-section="setup">Environment Setup</a>
+            <a href="#ex1" data-section="ex1">1. Assistive Agent</a>
+            <a href="#ex2" data-section="ex2">2. Custom Action - Flow</a>
+            <a href="#ex4" data-section="ex4">3. Custom Action - Apex</a>
+            <a href="#ex3" data-section="ex3">4. Custom Action - Prompt</a>
+            <a href="#ex5" data-section="ex5">5. Service Agent (ASA)</a>
+            <a href="#ex6" data-section="ex6">6. Knowledge Base</a>
+            <a href="#ex7" data-section="ex7">7. Escalation</a>
+            <a href="#ex8" data-section="ex8">8. Publishing the Agent</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Hero Section with Cover Photo -->
+            <div class="hero">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <h1>Building the Coral Clouds Service Agent</h1>
+                    <p>Your guide to creating an autonomous, AI-powered service agent using Agentforce, Flows, Apex, and Prompt Builder on the Salesforce Platform.</p>
+                </div>
+            </div>
+            
+            <!-- Overview Section -->
+            <section id="overview">
+                <h2>📚 Workshop Overview</h2>
+                <div class="overview-card">
+                    <h3>What We're Building and Why</h3>
+                    <p>You will construct a multi-functional Agentforce Service Agent (ASA) for Coral Clouds (our simulated company). This agent will be deployed directly to an Experience Cloud site, offering automated support and seamless handoff to human agents.</p>
+                    <p>The core goal is to enhance customer support and reduce manual workload by leveraging Salesforce's generative AI and automation capabilities.</p>
+
+                    <h3>Agent Key Capabilities:</h3>
+                    <ul>
+                        <li><strong>Intelligent Case Creation:</strong> Automatically gather information and create a Case linked to the customer's live chat session using a custom Flow.</li>
+                        <li><strong>Contextual Summaries:</strong> Use a custom Apex action to retrieve customer contact details, and then an intelligent Prompt to summarize their account, including open cases and activities.</li>
+                        <li><strong>Knowledge-Based Answers:</strong> Answer common customer queries by searching the Salesforce Knowledge Base using the standard Answer Questions with Knowledge (AQWK) action.</li>
+                        <li><strong>Smooth Escalation:</strong> Route complex or unresolved issues directly to a human service agent using an Omni-Channel Flow.</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <hr>
+
+            <!-- Pre-Work Section -->
+            <section id="prework" data-section="prework">
+                <h2>📋 Pre-Work: Org Setup & Provisioning</h2>
+                
+                <div class="hint">
+                    <p>💡 Complete these steps BEFORE the workshop to ensure you're ready to start building immediately.</p>
+                </div>
+
+                <details class="step" data-step="prework-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Sign up for a Salesforce Org</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'prework-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p><strong>Self-Service Setup through Trailhead</strong></p>
+                        
+                        <ol>
+                            <li>On Trailhead go to the <strong><a href="https://trailhead.salesforce.com/content/learn/projects/quick-start-explore-the-coral-cloud-sample-app/deploy-the-coral-cloud-sample-app">Quick Start: Explore the Coral Cloud Sample App</a></strong> badge, and get a new <strong>Custom Data Cloud Playground org</strong>.</li>
+                            <li>Make sure that you <strong>write down your user ID and password</strong>. You'll need them again later in this workshop.</li>
+                            <li>Also make sure to <strong>connect your custom playground in Trailhead</strong>. After this workshop you can use the org to verify the badge.</li>
+                            <li>In your browser, go to <code>login.salesforce.com</code> and log in to your org.</li>
+                        </ol>
+                        
+                        <div class="hint">
+                            <p>💡 Keep your credentials safe! You'll need them throughout the workshop.</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-prework-step1.jpg" alt="Trailhead signup" class="instruction-image">
+                            <p class="image-caption">Figure: Get Custom Data Cloud Playground org from Trailhead</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="prework-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Install Coral Cloud Base Package</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'prework-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p><strong>Install and set up the Coral Cloud base package</strong></p>
+                        
+                        <ol>
+                            <li>Once logged in into your org, replace the URL segment that comes after <code>lightning.force.com</code> with:
+                                <div class="code-block">
+                                    <pre>/packaging/installPackage.apexp?p0=04tWx0000001taLIAQ</pre>
+                                </div>
+                            </li>
+                            <li>Install for <strong>All Users</strong> and Click <strong>Install</strong>. Select the checkbox to grant access to third-party websites, and click <strong>Continue</strong>.</li>
+                            <li>Open <strong>Setup</strong>, Enter "permission" in quick find, then select <strong>Permission Sets</strong>.</li>
+                            <li>Click on the <strong>"Coral Cloud"</strong> permission set and Click <strong>Manage Assignments</strong>.</li>
+                            <li>Click <strong>Add Assignment</strong>. Select <strong>Admin User</strong>, then click <strong>Next</strong>.</li>
+                            <li>Click <strong>Assign</strong>.</li>
+                            <li>From App Launcher, open <strong>Sample Data Import</strong>. Click <strong>Import sample data</strong>.</li>
+                            <li>From App Launcher, open <strong>Coral Cloud Resorts</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-prework-step2.jpg" alt="Install base package" class="instruction-image">
+                            <p class="image-caption">Figure: Install Coral Cloud base package</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="prework-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Install Experience Cloud Site Package</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'prework-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p><strong>Install and set up the Coral Cloud Experience Cloud site package</strong></p>
+                        
+                        <ol>
+                            <li>Open the <strong>Setup Menu</strong> and click <strong>Setup</strong>.</li>
+                            <li>In the quick find, search for "digital" and click <strong>Settings</strong>.</li>
+                            <li>Select <strong>Enable ExperienceBundle Metadata API</strong> and click <strong>Save</strong>.</li>
+                            <li>Replace the URL segment that comes after <code>lightning.force.com</code> with:
+                                <div class="code-block">
+                                    <pre>/packaging/installPackage.apexp?p0=04tWx0000001fqjIAA</pre>
+                                </div>
+                            </li>
+                            <li>Install for <strong>All Users</strong> and Click <strong>Install</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-prework-step3.jpg" alt="Install Experience Cloud package" class="instruction-image">
+                            <p class="image-caption">Figure: Install Experience Cloud site package</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="prework-step4" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">4</span>
+                                <span class="step-title">Enable Generative AI Features - Step 1: Enable Einstein</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'prework-step4')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p><strong>Enable Einstein for Generative AI capabilities</strong></p>
+                        
+                        <ol>
+                            <li>Open the <strong>Setup Menu</strong> and click <strong>Setup</strong>.</li>
+                            <li>In the Setup Quick Find, search for <strong>Generative AI</strong>, and select <strong>Einstein Setup</strong>.</li>
+                            <li>Click the <strong>Turn on Einstein</strong> toggle.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-prework-step4.jpg" alt="Enable Einstein" class="instruction-image">
+                            <p class="image-caption">Figure: Turn on Einstein in Setup</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="prework-step5" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">5</span>
+                                <span class="step-title">Enable Generative AI Features - Step 2: Enable Agentforce</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'prework-step5')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p><strong>Enable Agentforce to start building AI agents</strong></p>
+                        
+                        <ol>
+                            <li><strong>Refresh your browser tab</strong>.</li>
+                            <li>Open the <strong>Setup Menu</strong> and click <strong>Setup</strong>.</li>
+                            <li>In the quick find, search for <strong>Agentforce</strong> and click <strong>Agentforce Agents</strong> (under Agent Studio). 
+                                <div class="hint">
+                                    <p>💡 If it is not available, continue to refresh the page until the cache has reset.</p>
+                                </div>
+                            </li>
+                            <li>Turn on the <strong>Agentforce</strong> toggle.</li>
+                        </ol>
+                        
+                        <div class="hint">
+                            <p>✅ You're now ready to start the workshop! All required features are enabled.</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-prework-step5.jpg" alt="Enable Agentforce" class="instruction-image">
+                            <p class="image-caption">Figure: Turn on Agentforce in Agent Studio</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+            
+            <hr>
+
+            <!-- Environment Setup Section -->
+            <section id="setup" data-section="setup">
+                <h2>🛠️ Environment Setup</h2>
+
+                <details class="step" data-step="setup-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create Your SDO Org</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'setup-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Use the STORM Slack App to create your Simple Demo Org (SDO). Select the template named The Simple Demo Org (SDO).</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-setup-step1.jpg" alt="STORM: Request an Org screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: STORM Request an Org - Select The Simple Demo Org (SDO) template</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="setup-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Enable Generative AI</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'setup-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Navigate to Setup and search for Generative AI. Toggle on the Turn on Einstein setting to enable the necessary features. Refresh the page and ensure Agent Studio now appears in the Setup quick find menu.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-setup-step2.jpg" alt="Enable Generative AI screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Enable Generative AI in Setup</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+            
+            <hr>
+
+            <!-- Exercise 1 -->
+            <section id="ex1" data-section="ex1">
+                <h2>1️⃣ Explore Agentforce Assistive (Copilot)</h2>
+
+                <details class="step" data-step="ex1-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Enable Agentforce and Open Builder</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex1-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>In Setup, search for Agents and click Agents (under Agent Studio).</li>
+                            <li>Turn on the Agentforce toggle.</li>
+                            <li>Click Agentforce (Default).</li>
+                            <li>Click Open in Builder (upper right corner).</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex1-step1.jpg" alt="Agentforce Setup screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Enable Agentforce and open Agent Builder</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex1-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create a Custom Topic</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex1-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>First, remove any default topics by selecting Remove from Agent.</li>
+                            <li>Click the arrow down icon next to "Manage the topics..." and select New Topic.</li>
+                        </ul>
+                        
+                        <h4>Topic Configuration:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Topic Label</td>
+                                    <td>Customer Service Assistant</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Customer Service Assistant')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Classification Description</td>
+                                    <td>Engages and interacts with the user about any request related to the resort...</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Engages and interacts with the user about any request related to the resort. This could be tasks such as identify and summarize records, answer queries, aggregate data, find and query objects, update records, or drafting and refining emails.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Scope</td>
+                                    <td>Your role is to assist a Customer Service Representative...</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Your role is to assist a Customer Service Representative in supporting guests with inquiries about reservations and experiences available at the hotel.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex1-step2.jpg" alt="Create Custom Topic screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Configure Custom Topic in Agent Builder</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+            
+            <hr>
+
+            <!-- Exercise 2 -->
+            <section id="ex2" data-section="ex2">
+                <h2>2️⃣ Custom Action - Flow (Case Creation)</h2>
+                <div class="hint">
+                    <p>💡 We are creating a custom action powered by an Autolaunched Flow that handles Case Creation and links it to the MessagingSessionId.</p>
+                </div>
+
+                <details class="step" data-step="ex2-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create an Autolaunched Flow (New Case for Contact)</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex2-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>The flow must be an Autolaunched Flow (No Trigger). Name it New Case for Contact.</p>
+
+                        <h4>a. Define Flow Variables (Resources)</h4>
+                        <p>Create the following Variable resources. They must be marked Available for Input for the Agentforce to pass data into them.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>API Name</th>
+                                    <th>Data Type</th>
+                                    <th>Available for Input</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>Text</td>
+                                    <td>☑</td>
+                                </tr>
+                                <tr>
+                                    <td>subject</td>
+                                    <td>Text</td>
+                                    <td>☑</td>
+                                </tr>
+                                <tr>
+                                    <td>description</td>
+                                    <td>Text</td>
+                                    <td>☑</td>
+                                </tr>
+                                <tr>
+                                    <td>messagingSessionId</td>
+                                    <td>Text</td>
+                                    <td>☑</td>
+                                </tr>
+                                <tr>
+                                    <td>caseRecord</td>
+                                    <td>Case (Record)</td>
+                                    <td>Output Only</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h4>b. Implement Flow Logic</h4>
+                        <p>The core logic involves finding the contact, creating the case, and linking the messaging session.</p>
+                        <ol>
+                            <li>Action: Get Contact By Email (Call the ContactLookup Apex class/action you will build in Ex. 4).</li>
+                            <li>Create Records: Create New Case. Use input variables for Subject, Description, and Contact ID (from the previous step), and set Origin to Chat.</li>
+                            <li>Get Records: Get Messaging Session. Retrieve the Session record using {!messagingSessionId}.</li>
+                            <li>Update Records: If the session is found, update its Case ID field with the newly created case ID.</li>
+                        </ol>
+                        <p>Save and Activate the flow.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex2-step1.jpg" alt="Flow Builder screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Autolaunched Flow configuration for Case Creation</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex2-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex2-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>In Setup, navigate to Agent Actions and click New Agent Action.</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Agent Action Label</td>
+                                    <td>Create New Case for Contact</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Create New Case for Contact')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Reference Action Type</td>
+                                    <td>Flow</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Flow')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Reference Action</td>
+                                    <td>New Case for Contact Flow</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'New Case for Contact Flow')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex2-step2.jpg" alt="Agent Action configuration screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create Agent Action for Flow</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+            
+            <hr>
+
+            <!-- Exercise 3 -->
+            <section id="ex3" data-section="ex3">
+                <h2>3️⃣ Custom Action - Prompt (Account Summary)</h2>
+                <div class="hint">
+                    <p>💡 We are skipping the Data Cloud setup steps and focusing on standard CRM data for the summary.</p>
+                </div>
+
+                <details class="step" data-step="ex3-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Update the Standard Prompt Template "Account Summary"</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex3-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>In Setup, navigate to Prompt Builder, open the existing Account Summary prompt, and save a new version or clone it, adjusting the instructions to focus on CRM data (cases and activities):</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex3-step1.jpg" alt="Prompt Builder screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Configure Account Summary Prompt Template</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex3-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex3-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>In Setup, open Agent Actions and click New Agent Action for the Prompt Template.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex3-step2.jpg" alt="Prompt Action configuration screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create Agent Action for Prompt Template</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 4 -->
+            <section id="ex4" data-section="ex4">
+                <h2>4️⃣ Custom Action - Invocable Apex class</h2>
+                <div class="hint">
+                    <p>💡 This action retrieves the Contact and Account ID based on the customer's email.</p>
+                </div>
+
+                <details class="step" data-step="ex4-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create Apex Class: ContactLookup</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex4-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create a new Apex Class named ContactLookup. This class uses the @InvocableMethod annotation to retrieve a contact's full name and account ID using their email address.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex4-step1.jpg" alt="Apex Class screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: ContactLookup Apex Class</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex4-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex4-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>In Setup, open Agent Actions and click New Agent Action for the Apex class.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex4-step2.jpg" alt="Apex Action configuration screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create Agent Action for Apex</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 5 -->
+            <section id="ex5" data-section="ex5">
+                <h2>5️⃣ Get Started with Agentforce Service Agent</h2>
+
+                <details class="step" data-step="ex5-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create New Agentforce (ASA)</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex5-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>Setup > Agents > New Agent.</li>
+                            <li>Configure the agent with Name: Coral Clouds Service Agent</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex5-step1.jpg" alt="Create new Agentforce screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create new Agentforce Service Agent</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex5-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create Custom Topic: Case Management</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex5-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create a New Custom Topic in the Agent Builder for Case Management.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex5-step2.jpg" alt="Case Management Topic screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Configure Case Management Topic</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex5-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Create Custom Topic: Account Management</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex5-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create another New Custom Topic in the Agent Builder for Account Management.</p>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex5-step3.jpg" alt="Account Management Topic screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Configure Account Management Topic</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 6 -->
+            <section id="ex6" data-section="ex6">
+                <h2>6️⃣ Answer from Knowledge</h2>
+                <div class="hint">
+                    <p>💡 This section uses the standard feature Answer Questions with Knowledge (AQWK), relying on existing Salesforce Knowledge Articles.</p>
+                </div>
+
+                <details class="step" data-step="ex6-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Use the Standard General FAQ Topic</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex6-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>In the Agent Builder for Coral Clouds Service Agent, add the standard General FAQ topic.</li>
+                            <li>Ensure the standard action Answer Questions with Knowledge (AQWK) is attached to this topic.</li>
+                            <li>The agent will now use RAG (Retrieval Augmented Generation) to answer questions using your Knowledge articles.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex6-step1.jpg" alt="Knowledge AQWK screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Configure Answer Questions with Knowledge action</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 7 -->
+            <section id="ex7" data-section="ex7">
+                <h2>7️⃣ Escalation (Human Handoff)</h2>
+                <div class="hint">
+                    <p>💡 Escalation is achieved by triggering an outbound Omni-Channel Flow configured to route the conversation to a human agent queue.</p>
+                </div>
+
+                <details class="step" data-step="ex7-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create Outbound Omni-Channel Flow</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>Create a new Omni-Channel Flow in Flow Builder.</li>
+                            <li>Name: <strong>Agentforce - Route to Human Agents</strong></li>
+                            <li>Add a Variable named <code>recordId</code> (Data Type: Text, Available for Input: Checked).</li>
+                            <li>Configure a Route Work element to route the conversation</li>
+                            <li>Save and Activate the flow.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step1.jpg" alt="Omni-Channel Flow screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Outbound Omni-Channel Flow for Escalation</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Attach Flow to Agentforce</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>Go to Setup > Coral Clouds Service Agent > Connections tab.</li>
+                            <li>Under Outbound Omni-Channel Flow, select the flow you just created: <strong>Agentforce - Route to Human Agents</strong></li>
+                            <li>This links the Agent's standard escalation topic (which is hidden) to your human handoff flow.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step2.jpg" alt="Attach Flow screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Attach Escalation Flow to Agentforce</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 8 -->
+            <section id="ex8" data-section="ex8">
+                <h2>8️⃣ Publish the Agentforce</h2>
+
+                <details class="step" data-step="ex8-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create Inbound Omni-Channel Flow</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex8-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>This flow is used to route incoming messages to your Agentforce Service Agent.</p>
+                        <ul>
+                            <li>Create a new Omni-Channel Flow (if you didn't create it in the pre-work).</li>
+                            <li>Name: <strong>Agentforce - Route to Coral Clouds Agentforce</strong></li>
+                            <li>Configure a Route Work element to route to the Coral Clouds Service Agent, using the Messaging Fallback Queue.</li>
+                            <li>Save and Activate the flow.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex8-step1.jpg" alt="Inbound Flow screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Inbound Omni-Channel Flow</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex8-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create Messaging Channel (MIAW)</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex8-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>Go to Setup > Feature Settings > Service > Messaging > Messaging Settings.</li>
+                            <li>Click New Channel and choose MIAW (Messaging for In-App and Web).</li>
+                            <li>Name the channel: <strong>Coral Clouds Messaging - MIAW</strong></li>
+                            <li>Save and Activate the channel.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex8-step2.jpg" alt="MIAW Channel screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create MIAW Messaging Channel</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex8-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Create Embedded Service Deployment</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex8-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>From Setup > Feature Settings > Service > Embedded Service > Embedded Service Deployments.</li>
+                            <li>Choose MIAW > WEB.</li>
+                            <li>Name: <strong>Coral Clouds Agentforce</strong></li>
+                            <li>Select your Domain (from your Experience Site) and the Messaging Channel: <strong>Coral Clouds Messaging - MIAW</strong></li>
+                            <li>Save and Publish the deployment.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex8-step3.jpg" alt="Embedded Service screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Create Embedded Service Deployment</p>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex8-step4" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">4</span>
+                                <span class="step-title">Add MIAW Channel to Experience Site</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex8-step4')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>Go to your Experience Site builder.</li>
+                            <li>Search for the Embedded Messaging component.</li>
+                            <li>Drag and Drop the component onto your page.</li>
+                            <li>In the properties panel, choose the Embedded Web Deployment: <strong>Coral Clouds Agentforce</strong></li>
+                            <li>Publish your Experience Site.</li>
+                            <li>Test your new autonomous Service Agent on the live Experience Cloud URL.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex8-step4.jpg" alt="Experience Site screenshot" class="instruction-image">
+                            <p class="image-caption">Figure: Add MIAW to Experience Cloud Site</p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

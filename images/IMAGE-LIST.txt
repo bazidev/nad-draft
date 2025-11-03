@@ -1,0 +1,70 @@
+📸 SCREENSHOT PLACEHOLDERS
+==========================
+
+Add your instruction screenshots to this folder with the following names:
+
+PRE-WORK (ORG SETUP):
+---------------------
+✓ pic-prework-step1.jpg → Trailhead signup for Custom Data Cloud Playground
+✓ pic-prework-step2.jpg → Install Coral Cloud base package
+✓ pic-prework-step3.jpg → Install Experience Cloud site package
+✓ pic-prework-step4.jpg → Enable Einstein in Setup
+✓ pic-prework-step5.jpg → Enable Agentforce in Agent Studio
+
+ENVIRONMENT SETUP:
+------------------
+✓ pic-setup-step1.jpg   → STORM: Request an Org (Select SDO template)
+✓ pic-setup-step2.jpg   → Enable Generative AI in Setup
+
+EXERCISE 1: ASSISTIVE AGENT:
+----------------------------
+✓ pic-ex1-step1.jpg     → Enable Agentforce and open Agent Builder
+✓ pic-ex1-step2.jpg     → Create Custom Topic configuration
+
+EXERCISE 2: FLOW (CASE CREATION):
+---------------------------------
+✓ pic-ex2-step1.jpg     → Flow Builder - Autolaunched Flow for Case Creation
+✓ pic-ex2-step2.jpg     → Agent Action configuration for Flow
+
+EXERCISE 3: PROMPT (ACCOUNT SUMMARY):
+-------------------------------------
+✓ pic-ex3-step1.jpg     → Prompt Builder - Account Summary Template
+✓ pic-ex3-step2.jpg     → Agent Action configuration for Prompt
+
+EXERCISE 4: APEX CLASS:
+-----------------------
+✓ pic-ex4-step1.jpg     → ContactLookup Apex Class code
+✓ pic-ex4-step2.jpg     → Agent Action configuration for Apex
+
+EXERCISE 5: SERVICE AGENT (ASA):
+--------------------------------
+✓ pic-ex5-step1.jpg     → Create new Agentforce Service Agent
+✓ pic-ex5-step2.jpg     → Case Management Custom Topic
+✓ pic-ex5-step3.jpg     → Account Management Custom Topic
+
+EXERCISE 6: KNOWLEDGE BASE:
+---------------------------
+✓ pic-ex6-step1.jpg     → Configure Answer Questions with Knowledge (AQWK)
+
+EXERCISE 7: ESCALATION:
+-----------------------
+✓ pic-ex7-step1.jpg     → Outbound Omni-Channel Flow for Escalation
+✓ pic-ex7-step2.jpg     → Attach Flow to Agentforce Connections
+
+EXERCISE 8: PUBLISHING:
+-----------------------
+✓ pic-ex8-step1.jpg     → Inbound Omni-Channel Flow
+✓ pic-ex8-step2.jpg     → Create MIAW Messaging Channel
+✓ pic-ex8-step3.jpg     → Embedded Service Deployment
+✓ pic-ex8-step4.jpg     → Add MIAW to Experience Cloud Site
+
+TIPS:
+-----
+• Use .jpg, .jpeg, or .png format
+• Recommended size: 1200-1600px wide
+• Clear, high-resolution screenshots work best
+• Crop to show only relevant UI elements
+• If an image is missing, a placeholder border will show
+
+Total Screenshots Needed: 25 (5 pre-work + 20 workshop)
+
