@@ -189,6 +189,36 @@ function copyValue(button, text) {
     });
 }
 
+// Special function to copy instructions text (removes HTML breaks)
+function copyInstructionsText() {
+    const instructionsElement = document.getElementById('instructions-text');
+    if (instructionsElement) {
+        // Get the text content and replace <br><br> with newlines
+        const text = instructionsElement.innerHTML.replace(/<br\s*\/?><br\s*\/?>/gi, '\n\n');
+        // Remove any remaining HTML tags
+        const plainText = text.replace(/<[^>]*>/g, '');
+        
+        navigator.clipboard.writeText(plainText).then(() => {
+            // Visual feedback
+            const button = event.currentTarget;
+            const originalHTML = button.innerHTML;
+            button.classList.add('copied');
+            button.innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `;
+
+            setTimeout(() => {
+                button.classList.remove('copied');
+                button.innerHTML = originalHTML;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+        });
+    }
+}
+
 // Add copy buttons to all code blocks
 function addCopyButtonsToCodeBlocks() {
     const codeBlocks = document.querySelectorAll('.code-block');

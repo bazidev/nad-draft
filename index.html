@@ -42,13 +42,13 @@
                 <a href="#overview" class="nav-section-title">Overview</a>
                 <a href="#prework" data-section="prework">Pre-Work & Setup</a>
                 <a href="#ex1" data-section="ex1">Explore the Employee Agent</a>
-            <a href="#ex2" data-section="ex2">2. Custom Action - Flow</a>
-            <a href="#ex4" data-section="ex4">3. Custom Action - Apex</a>
-            <a href="#ex3" data-section="ex3">4. Custom Action - Prompt</a>
-            <a href="#ex5" data-section="ex5">5. Service Agent (ASA)</a>
-            <a href="#ex6" data-section="ex6">6. Knowledge Base</a>
-            <a href="#ex7" data-section="ex7">7. Escalation</a>
-            <a href="#ex8" data-section="ex8">8. Publishing the Agent</a>
+            <a href="#ex2" data-section="ex2">1. Service Agent (ASA)</a>
+            <a href="#ex3" data-section="ex3">2. Knowledge Base</a>
+            <a href="#ex4" data-section="ex4">3. Custom Action - Flow</a>
+            <a href="#ex5" data-section="ex5">4. Custom Action - Apex</a>
+            <a href="#ex6" data-section="ex6">5. Custom Action - Prompt</a>
+            <a href="#ex7" data-section="ex7">6. Escalation</a>
+            <a href="#ex8" data-section="ex8">7. Publishing the Agent</a>
         </nav>
     </div>
 
@@ -307,7 +307,7 @@
 
             <!-- Exercise 1 -->
             <section id="ex1" data-section="ex1">
-                <h2>1️⃣ Explore Agentforce Employee Agent</h2>
+                <h2>Explore Agentforce Employee Agent</h2>
 
                 <details class="step" data-step="ex1-step1" open>
                     <summary>
@@ -512,25 +512,24 @@
             <div class="hint">
                     <h4>ℹ️ Coral Cloud Service Agent</h4>
                     <br />
-                    <p>Now let'e create out main Agent <strong>the Coral Clouds Service Agent</strong>, but first we will build few components that are needed for the agent.</p>
-                    <p>We will create a Flow, an Apex and a Prompt Builder and all of them will be used by the Agent through custom actions</p>
-                    <p>First We are an Autolaunched Flow that handles Case Creation and links it to the MessagingSessionId.</p>
+                    <p>Now let's create our main Agent <strong>the Coral Clouds Service Agent</strong>!</p>
+                    <br />
+                    <p>This new Agentforce agent of type Service Agent will be exposed to customers. It will assist with case creation, escalations, and retrieving account summaries. Additionally, it will leverage knowledge articles through Data Cloud and ADL (Agentforce Data Library) to provide relevant answers.</p>
+                    <br />
+                    <p>We'll first set up the agent structure and knowledge, then build custom components (Flow, Apex, Prompt Builder) that will be added to it as custom actions and finally we'll setup escalation and agent connections.</p>
                 </div>
 
                 
             <!-- Exercise 2 -->
             <section id="ex2" data-section="ex2">
-                
-                <h2>2️⃣ Custom Action - Flow (Case Creation)</h2>
-                
-                
+                <h2>1️⃣ Get Started with Agentforce Service Agent</h2>
 
                 <details class="step" data-step="ex2-step1" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">1</span>
-                                <span class="step-title">Create an Autolaunched Flow (New Case for Contact)</span>
+                                <span class="step-title">Create New Agentforce (ASA)</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex2-step1')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -540,63 +539,104 @@
                         </div>
                     </summary>
                     <div class="step-content">
-                        <ul>
-                            <li>In the App Launcher, search for <strong>automation</strong> then create a new Flow.</li>
-                            <li>The flow must be an <strong>Autolaunched Flow (No Trigger)</strong>.</li>
-                        </ul>
+                        <p><strong>Create the Agent:</strong></p>
+                        <ol>
+                            <li>Navigate to <strong>Setup > Agentforce Agents > New Agent</strong>.</li>
+                            <li>Select <strong>Agentforce Service Agent</strong> and click <strong>Next</strong>.</li>
+                            <li>Click <strong>Added</strong> on all default topics to remove them (we'll add them later and add custom ones).</li>
+                        </ol>
 
-                        <h4>a. Define Flow Variables (Resources)</h4>
-                        <p>Create the following Variable resources. They must be marked Available for Input for the Agentforce to pass data into them.</p>
+                        <h4>Agent Configuration:</h4>
+                        <p>Use the following values to configure your Service Agent:</p>
+                        
                         <table>
                             <thead>
                                 <tr>
-                                    <th>API Name</th>
-                                    <th>Data Type</th>
-                                    <th>Available for Input</th>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>email</td>
-                                    <td>Text</td>
-                                    <td>☑</td>
+                                    <td><strong>Name</strong></td>
+                                    <td>Coral Clouds Service Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral Clouds Service Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
                                 </tr>
                                 <tr>
-                                    <td>subject</td>
-                                    <td>Text</td>
-                                    <td>☑</td>
+                                    <td><strong>API Name</strong></td>
+                                    <td>Coral_Clouds_Service_Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral_Clouds_Service_Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
                                 </tr>
                                 <tr>
-                                    <td>description</td>
-                                    <td>Text</td>
-                                    <td>☑</td>
+                                    <td><strong>Description</strong></td>
+                                    <td>Deliver personalized customer interactions with an autonomous AI agent. Agentforce Service Agent intelligently supports your customers with common inquiries and escalates complex issues.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Deliver personalized customer interactions with an autonomous AI agent. Agentforce Service Agent intelligently supports your customers with common inquiries and escalates complex issues.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
                                 </tr>
                                 <tr>
-                                    <td>messagingSessionId</td>
-                                    <td>Text</td>
-                                    <td>☑</td>
+                                    <td><strong>Role</strong></td>
+                                    <td>An AI customer service agent whose job is to help customers with support questions or other issues.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'An AI customer service agent whose job is to help customers with support questions or other issues.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
                                 </tr>
                                 <tr>
-                                    <td>caseRecord</td>
-                                    <td>Case (Record)</td>
-                                    <td>Output Only</td>
+                                    <td><strong>Company</strong></td>
+                                    <td>Coral Clouds is a leading company specializing in hospitality solutions. that uses data and AI to deliver highly personalized guest experiences. </td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral Clouds is a leading company specializing in hospitality solutions. that uses data and AI to deliver highly personalized guest experiences. ')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent User</strong></td>
+                                    <td>New Agent User</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'New Agent User')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Enrich Events logs with conversation data</strong></td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Enable this checkbox
+                                    </td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                         
-                        <h4>b. Implement Flow Logic</h4>
-                        <p>The core logic involves finding the contact, creating the case, and linking the messaging session.</p>
-                        <ol>
-                            <li>Action: Get Contact By Email (Call the ContactLookup Apex class/action you will build in Ex. 4).</li>
-                            <li>Create Records: Create New Case. Use input variables for Subject, Description, and Contact ID (from the previous step), and set Origin to Chat.</li>
-                            <li>Get Records: Get Messaging Session. Retrieve the Session record using {!messagingSessionId}.</li>
-                            <li>Update Records: If the session is found, update its Case ID field with the newly created case ID.</li>
-                        </ol>
-                        <p>Save and Activate the flow.</p>
+                        <div class="hint">
+                            <p>💡 Ignore the Data Library and Click <strong>Create</strong> when done to create your Service Agent.</p>
+                        </div>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex2-step1.jpg" alt="Flow Builder screenshot" class="instruction-image">
-                            
+                            <img src="images/pic-ex2-step1.jpg" alt="Create new Agentforce screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
@@ -606,7 +646,7 @@
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">2</span>
-                                <span class="step-title">Create the Agentforce Custom Action</span>
+                                <span class="step-title">Configure Permission Set for ASA User</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex2-step2')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -616,7 +656,562 @@
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>In Setup, navigate to Agent Actions and click New Agent Action.</p>
+                        <p>When creating a new Agentforce, we chose to create a new user, which will also create a new Permission Set called in our case: <strong>Coral_Clouds_Service_Agent Permissions</strong>.</p>
+                        <p>Imagine your Agent as a real human using Salesforce, he will need to have permissions to be able to complete his tasks</p>
+                        <div class="warning">
+                            <p>⚠️ When testing in the Agentforce, it's recommended to debug the custom action flow by the Agentforce user to make sure that there is no missing OLS/FLS.</p>
+                        </div>
+                        <div class="hint">
+                            <p>💡 Navigate to <strong>Setup > Permission Sets > Coral_Clouds_Service_Agent Permissions</strong> to configure these permissions.</p>
+                        </div>
+
+                        <p>Add all needed permissions to the Agentforce Permission Set, otherwise actions will fail.</p>
+
+                        <h4>Required Permissions:</h4>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Object Level Security</th>
+                                    <th>Field Level Security</th>
+                                    <th>Fields</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Object</td>
+                                    <td><strong>Case</strong></td>
+                                    <td>Read/Create/Edit</td>
+                                    <td>Read/Edit</td>
+                                    <td>AccountId, Origin, ContactId, Description, Type</td>
+                                </tr>
+                                <tr>
+                                    <td>Object</td>
+                                    <td><strong>Contact</strong></td>
+                                    <td>Read</td>
+                                    <td>Read</td>
+                                    <td>All Fields</td>
+                                </tr>
+                                <tr>
+                                    <td>Object</td>
+                                    <td><strong>Messaging Sessions</strong></td>
+                                    <td>Read/Edit</td>
+                                    <td>Edit</td>
+                                    <td>All Fields</td>
+                                </tr>
+                                <tr>
+                                    <td>Object</td>
+                                    <td><strong>Account</strong></td>
+                                    <td>Read</td>
+                                    <td>Read</td>
+                                    <td>All Fields</td>
+                                </tr>
+                                <tr>
+                                    <td>Object</td>
+                                    <td><strong>Knowledge__kav</strong></td>
+                                    <td>Read/View All Records/View All Fields</td>
+                                    <td>Read</td>
+                                    <td>All Fields</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="warning">
+                            <p>⚠️ <strong>Important:</strong> Don't forget to also grant Apex Class access to <strong>ContactLookup</strong> once you create it in Exercise 4!</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex2-step2.jpg" alt="Permission Set configuration screenshot" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <!-- Exercise 3 -->
+            <section id="ex3" data-section="ex3">
+                <h2>2️⃣ Answer from Knowledge</h2>
+                <div class="hint">
+                    <p>💡 This section uses the standard feature Answer Questions with Knowledge, relying on existing Salesforce Knowledge Articles.</p>
+                </div>
+
+                <details class="step" data-step="ex3-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Use the Standard General FAQ Topic</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex3-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>In the <strong>Agent Builder</strong> for Coral Clouds Service Agent, add the standard General FAQ topic (Add from asset library).</li>
+                            <li>Ensure the standard action <strong>Answer Questions with Knowledge</strong> is attached to this topic.</li>
+                            <div class="warning">
+                                <p>Now you have added the Topic and Action but you still need the Data library.</p>
+                            </div>     
+                            <li>Click <strong>Data</strong> menu in the Agent Builder side-bar</li>    
+                            <li>New Library with Name <Strong>Coral Clouds Service Agent Library</Strong></li>
+                            <li>Data Type: <Strong>Knowledge</Strong></li>         
+                            <li>Identifying fields: <Strong>Title</Strong> & <strong>Summary</strong></li>      
+                            <li>Content Fields: <Strong>Answer</Strong> & <strong>Details</strong></li>      
+                            <li>The agent will now use RAG (<a class="link" target="_blank" href='https://www.salesforce.com/agentforce/what-is-rag/'>Retrieval Augmented Generation</a>) to answer questions using your Knowledge articles.</li>
+                        </ul>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex3-step1.jpg" alt="Knowledge AQWK screenshot" class="instruction-image">
+                            
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <hr>
+
+            <div class="hint">
+                    <h4>ℹ️ Custom Actions</h4>
+                    <br />
+                    <p>Now Let's build custom actions for the Agent.</p>
+                    <p>We will create a Flow, an Apex class, and a Prompt Builder template. All will be used by the Agent through custom actions.</p>
+                    <p>First, we'll create an Autolaunched Flow that handles Case Creation and links it to the MessagingSessionId.</p>
+                </div>
+
+                
+            <!-- Exercise 4 -->
+            <section id="ex4" data-section="ex4">
+                
+                <h2>3️⃣ Custom Action - Flow (Case Creation)</h2>
+                
+                
+
+                <details class="step" data-step="ex4-step1" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">1</span>
+                                <span class="step-title">Create an Autolaunched Flow (Case creation)</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex4-step1')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ul>
+                            <li>In the App Launcher, search for <strong>Automation</strong> then create a new Flow.</li>
+                            <li>The flow must be an <strong>Autolaunched Flow (No Trigger)</strong>.</li>
+                        </ul>
+
+                        <h4>1. Define Flow Variables (Resources)</h4>
+                        <p>Create the following Variable resources. They must be marked Available for Input or Output for the Agentforce to pass data.</p>
+                        <div class="warning">
+                            <p>Writing clear and informative descriptions is a crucial part of building Agentforce actions. It allows the <strong>Agentforce Reasoning Engine</strong> to select the right actions and pass the right values to actions, populate inputs with the right values, and correctly interpret outputs.</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>API Name</th>
+                                    <th>Data Type</th>
+                                    <th>Available for Input</th>
+                                    <th>Available for Output</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email</td>
+                                    <td>Text</td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </td>
+                                    <td style="text-align: center;">-</td>
+                                    <td>The email address of the contact for whom the case is being created</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'The email address of the contact for whom the case is being created')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>subject</td>
+                                    <td>Text</td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </td>
+                                    <td style="text-align: center;">-</td>
+                                    <td>The subject line for the new case</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'The subject line for the new case')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>description</td>
+                                    <td>Text</td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </td>
+                                    <td style="text-align: center;">-</td>
+                                    <td>Detailed description of the case issue</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Detailed description of the case issue')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>messagingSessionId</td>
+                                    <td>Text</td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </td>
+                                    <td style="text-align: center;">-</td>
+                                    <td>The ID of the messaging session to link to the case</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'The ID of the messaging session to link to the case')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>caseRecord</td>
+                                    <td>Case (Record)</td>
+                                    <td style="text-align: center;">-</td>
+                                    <td style="text-align: center;">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                                            <path d="M20 6L9 17L4 12" stroke="#2E844A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </td>
+                                    <td>The newly created Case record returned by the flow</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'The newly created Case record returned by the flow')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h4>2. Implement Flow Logic</h4>
+                        <p>Build the flow with the following elements in sequence:</p>
+                        
+                        <div class="hint">
+                            <p><strong>Element 1: Get Contact By Email</strong></p>
+                            <ul>
+                                <li><strong>Type:</strong> Get Records</li>
+                                <li><strong>Object:</strong> Contact</li>
+                                <li><strong>Condition:</strong> Email Equals <code>{!email}</code></li>
+                                <li><strong>Store:</strong> Automatically store all fields</li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 2: Create New Case</strong></p>
+                            <ul>
+                                <li><strong>Type:</strong> Create Records</li>
+                                <li><strong>Object:</strong> Case</li>
+                                <li><strong>Set Fields:</strong>
+                                    <ul style="margin-top: 8px;">
+                                        <li><strong>Email Address:</strong> <code>{!email}</code></li>
+                                        <li><strong>Contact ID:</strong> <code>{!Get_Contact_By_Email.Id}</code></li>
+                                        <li><strong>Subject:</strong> <code>{!subject}</code></li>
+                                        <li><strong>Description:</strong> <code>{!description}</code></li>
+                                        <li><strong>Status:</strong> New</li>
+                                        <li><strong>Origin:</strong> Web</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 3: Get Messaging Session By Id</strong></p>
+                            <ul>
+                                <li><strong>Type:</strong> Get Records</li>
+                                <li><strong>Object:</strong> Messaging Session</li>
+                                <li><strong>Condition:</strong> Id Equals <code>{!messagingSessionId}</code></li>
+                                <li><strong>Store:</strong> Automatically store all fields</li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 4: Messaging Session Found?</strong></p>
+                            <ul>
+                                <li><strong>Type:</strong> Decision</li>
+                                <li><strong>Outcome "Yes":</strong> <code>{!Get_Messaging_Session_By_Id}</code> Is Null = False</li>
+                                <li><strong>Outcome "No":</strong> Default</li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 5: Link Messaging Session to Case</strong> (Under "Yes" path)</p>
+                            <ul>
+                                <li><strong>Type:</strong> Assignment</li>
+                                <li><strong>Set:</strong> <code>{!Get_Messaging_Session_By_Id.CaseId}</code> = <code>{!Create_New_Case.Id}</code></li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 6: Update Messaging Session</strong> (Under "Yes" path)</p>
+                            <ul>
+                                <li><strong>Type:</strong> Update Records</li>
+                                <li><strong>Record:</strong> <code>{!Get_Messaging_Session_By_Id}</code></li>
+                            </ul>
+                        </div>
+
+                        <h4>3. Save and Activate</h4>
+                        <p>Configure the flow properties and activate it:</p>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Flow Label</strong></td>
+                                    <td>New Case for Contact</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'New Case for Contact')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Description</strong></td>
+                                    <td>This flow creates a new case for a specific customer contact while linking it to the session context (Messaging Session Id)</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'This flow creates a new case for a specific customer contact while linking it to the session context (Messaging Session Id)')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Run Context</strong></td>
+                                    <td>User or System Context—Depends on How Flow is Launched</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'User or System Context—Depends on How Flow is Launched')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex4-step1.jpg" alt="Flow Builder screenshot" class="instruction-image">
+                            
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex4-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create Custom Topic: Case Management</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex4-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Go back to <strong>Setup > Agent Builder</strong> to create a new Custom Topic for Case Management.</p>
+                        
+                        <h4>Topic Configuration:</h4>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Topic Label</strong></td>
+                                    <td>Coral Clouds Case Management</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral Clouds Case Management')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Classification Description</strong></td>
+                                    <td>Handles customer inquiries and actions related to support cases, including providing case information, updating existing cases, and creating new cases.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Handles customer inquiries and actions related to support cases, including providing case information, updating existing cases, and creating new cases.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Role</strong></td>
+                                    <td>Your job is to help customers retrieve case information, update case comments, and create new cases based on customer requests.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Your job is to help customers retrieve case information, update case comments, and create new cases based on customer requests.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Instructions:</h4>
+                        <p>Configure the following instructions for the topic:</p>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Instruction</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Always format any dates in a human readable format</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Always format any dates in a human readable format')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Do not ever show the Case Id to a customer</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Do not ever show the Case Id to a customer')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>If the customer is not known, always ask for their email address to be used in the case creation.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'If the customer is not known, always ask for their email address to be used in the case creation.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>When adding a comment to a case, first retrieve the case details using the case number, ask the user for the exact comment they would like to add and only then add it.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'When adding a comment to a case, first retrieve the case details using the case number, ask the user for the exact comment they would like to add and only then add it.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>When sharing case details to the customer, show the following properties as an itemized list: Case number, Subject, Description, and Status.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'When sharing case details to the customer, show the following properties as an itemized list: Case number, Subject, Description, and Status.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>A case is a record used to help track a customer's issues. Customers may have questions about the status of the issue or want to provide more information for the case. Cases are usually associated with a contact. Comments are added to provide new information.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'A case is a record used to help track a customer&apos;s issues. Customers may have questions about the status of the issue or want to provide more information for the case. Cases are usually associated with a contact. Comments are added to provide new information.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>If the customer is not known, always ask for their email address and retrieve their Account record before summarizing the conversation or creating the case.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'If the customer is not known, always ask for their email address and retrieve their Account record before summarizing the conversation or creating the case.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>Before creating a case and IF you didn't summarised the conversation before, then summarize the current conversation but only the issue the customer is facing. The subject should be less than 255, The description should be clear and limited to 7 sentences, outlining what the customer asked and including key details. Always address the customer by their name in the summary. Share the summary with the customer in a well-formatted manner using bullet points, and ask them to validate it. The customer may either confirm or request updates to the summary.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Before creating a case and IF you didn&apos;t summarised the conversation before, then summarize the current conversation but only the issue the customer is facing. The subject should be less than 255, The description should be clear and limited to 7 sentences, outlining what the customer asked and including key details. Always address the customer by their name in the summary. Share the summary with the customer in a well-formatted manner using bullet points, and ask them to validate it. The customer may either confirm or request updates to the summary.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td>If the customer responds positively (e.g., replying with "yes," "I confirm," or "it's okay"), then create the new case record for the customer's account by calling the appropriate action and share the New Case Record Details with the customer.</td>
+                                    <td><button class="copy-btn" onclick='copyValue(this, "If the customer responds positively (e.g., replying with \"yes,\" \"I confirm,\" or \"it&apos;s okay\"), then create the new case record for the customer&apos;s account by calling the appropriate action and share the New Case Record Details with the customer.")'>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex4-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex4-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Open the <strong>Coral Clouds Case Management</strong> topic, open actions and click new Action.</p>
+
                         <table>
                             <thead>
                                 <tr>
@@ -656,11 +1251,34 @@
                                         </svg>
                                     </button></td>
                                 </tr>
+
+                                <tr>
+                                    <td>Loading Text</td>
+                                    <td>Creating case</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Creating case')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Required inputs:</td>
+                                    <td>email, messagingSessionId, subject</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'email, messagingSessionId, subject')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
                             </tbody>
+                            
                         </table>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex2-step2.jpg" alt="Agent Action configuration screenshot" class="instruction-image">
+                            <img src="images/pic-ex4-step3.jpg" alt="Agent Action configuration screenshot" class="instruction-image">
                             
                         </div>
                     </div>
@@ -669,21 +1287,21 @@
             
             <hr>
 
-            <!-- Exercise 3 -->
-            <section id="ex3" data-section="ex3">
-                <h2>3️⃣ Custom Action - Prompt (Account Summary)</h2>
+            <!-- Exercise 6 -->
+            <section id="ex6" data-section="ex6">
+                <h2>5️⃣ Custom Action - Prompt (Account Summary)</h2>
                 <div class="hint">
                     <p>💡 We are skipping the Data Cloud setup steps and focusing on standard CRM data for the summary.</p>
                 </div>
 
-                <details class="step" data-step="ex3-step1" open>
+                <details class="step" data-step="ex6-step1" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">1</span>
                                 <span class="step-title">Update the Standard Prompt Template "Account Summary"</span>
                             </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex3-step1')">
+                            <button class="status-button" onclick="toggleStep(event, 'ex6-step1')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -694,20 +1312,20 @@
                         <p>In Setup, navigate to Prompt Builder, open the existing Account Summary prompt, and save a new version or clone it, adjusting the instructions to focus on CRM data (cases and activities):</p>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex3-step1.jpg" alt="Prompt Builder screenshot" class="instruction-image">
+                            <img src="images/pic-ex6-step1.jpg" alt="Prompt Builder screenshot" class="instruction-image">
                             
                         </div>
                     </div>
                 </details>
 
-                <details class="step" data-step="ex3-step2" open>
+                <details class="step" data-step="ex6-step2" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">2</span>
                                 <span class="step-title">Create the Agentforce Custom Action</span>
                             </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex3-step2')">
+                            <button class="status-button" onclick="toggleStep(event, 'ex6-step2')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -718,65 +1336,7 @@
                         <p>In Setup, open Agent Actions and click New Agent Action for the Prompt Template.</p>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex3-step2.jpg" alt="Prompt Action configuration screenshot" class="instruction-image">
-                            
-                        </div>
-                    </div>
-                </details>
-            </section>
-
-            <hr>
-
-            <!-- Exercise 4 -->
-            <section id="ex4" data-section="ex4">
-                <h2>4️⃣ Custom Action - Invocable Apex class</h2>
-                <div class="hint">
-                    <p>💡 This action retrieves the Contact and Account ID based on the customer's email.</p>
-                </div>
-
-                <details class="step" data-step="ex4-step1" open>
-                    <summary>
-                        <div class="step-header">
-                            <div class="step-left">
-                                <span class="step-number">1</span>
-                                <span class="step-title">Create Apex Class: ContactLookup</span>
-                            </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex4-step1')">
-                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </summary>
-                    <div class="step-content">
-                        <p>Create a new Apex Class named ContactLookup. This class uses the @InvocableMethod annotation to retrieve a contact's full name and account ID using their email address.</p>
-                        
-                        <div class="image-placeholder">
-                            <img src="images/pic-ex4-step1.jpg" alt="Apex Class screenshot" class="instruction-image">
-                            
-                        </div>
-                    </div>
-                </details>
-
-                <details class="step" data-step="ex4-step2" open>
-                    <summary>
-                        <div class="step-header">
-                            <div class="step-left">
-                                <span class="step-number">2</span>
-                                <span class="step-title">Create the Agentforce Custom Action</span>
-                            </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex4-step2')">
-                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </summary>
-                    <div class="step-content">
-                        <p>In Setup, open Agent Actions and click New Agent Action for the Apex class.</p>
-                        
-                        <div class="image-placeholder">
-                            <img src="images/pic-ex4-step2.jpg" alt="Apex Action configuration screenshot" class="instruction-image">
+                            <img src="images/pic-ex6-step2.jpg" alt="Prompt Action configuration screenshot" class="instruction-image">
                             
                         </div>
                     </div>
@@ -787,14 +1347,17 @@
 
             <!-- Exercise 5 -->
             <section id="ex5" data-section="ex5">
-                <h2>5️⃣ Get Started with Agentforce Service Agent</h2>
+                <h2>4️⃣ Custom Action - Invocable Apex class</h2>
+                <div class="hint">
+                    <p>💡 This action retrieves the Contact and Account ID based on the customer's email.</p>
+                </div>
 
                 <details class="step" data-step="ex5-step1" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">1</span>
-                                <span class="step-title">Create New Agentforce (ASA)</span>
+                                <span class="step-title">Create Apex Class: ContactLookup</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex5-step1')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -804,13 +1367,10 @@
                         </div>
                     </summary>
                     <div class="step-content">
-                        <ul>
-                            <li>Setup > Agents > New Agent.</li>
-                            <li>Configure the agent with Name: Coral Clouds Service Agent</li>
-                        </ul>
+                        <p>Create a new Apex Class named ContactLookup. This class uses the @InvocableMethod annotation to retrieve a contact's full name and account ID using their email address.</p>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex5-step1.jpg" alt="Create new Agentforce screenshot" class="instruction-image">
+                            <img src="images/pic-ex5-step1.jpg" alt="Apex Class screenshot" class="instruction-image">
                             
                         </div>
                     </div>
@@ -821,7 +1381,7 @@
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">2</span>
-                                <span class="step-title">Create Custom Topic: Case Management</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex5-step2')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -831,72 +1391,10 @@
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>Create a New Custom Topic in the Agent Builder for Case Management.</p>
+                        <p>In Setup, open Agent Actions and click New Agent Action for the Apex class.</p>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex5-step2.jpg" alt="Case Management Topic screenshot" class="instruction-image">
-                            
-                        </div>
-                    </div>
-                </details>
-
-                <details class="step" data-step="ex5-step3" open>
-                    <summary>
-                        <div class="step-header">
-                            <div class="step-left">
-                                <span class="step-number">3</span>
-                                <span class="step-title">Create Custom Topic: Account Management</span>
-                            </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex5-step3')">
-                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </summary>
-                    <div class="step-content">
-                        <p>Create another New Custom Topic in the Agent Builder for Account Management.</p>
-                        
-                        <div class="image-placeholder">
-                            <img src="images/pic-ex5-step3.jpg" alt="Account Management Topic screenshot" class="instruction-image">
-                            
-                        </div>
-                    </div>
-                </details>
-            </section>
-
-            <hr>
-
-            <!-- Exercise 6 -->
-            <section id="ex6" data-section="ex6">
-                <h2>6️⃣ Answer from Knowledge</h2>
-                <div class="hint">
-                    <p>💡 This section uses the standard feature Answer Questions with Knowledge (AQWK), relying on existing Salesforce Knowledge Articles.</p>
-                </div>
-
-                <details class="step" data-step="ex6-step1" open>
-                    <summary>
-                        <div class="step-header">
-                            <div class="step-left">
-                                <span class="step-number">1</span>
-                                <span class="step-title">Use the Standard General FAQ Topic</span>
-                            </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex6-step1')">
-                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </summary>
-                    <div class="step-content">
-                        <ul>
-                            <li>In the Agent Builder for Coral Clouds Service Agent, add the standard General FAQ topic.</li>
-                            <li>Ensure the standard action Answer Questions with Knowledge (AQWK) is attached to this topic.</li>
-                            <li>The agent will now use RAG (Retrieval Augmented Generation) to answer questions using your Knowledge articles.</li>
-                        </ul>
-                        
-                        <div class="image-placeholder">
-                            <img src="images/pic-ex6-step1.jpg" alt="Knowledge AQWK screenshot" class="instruction-image">
+                            <img src="images/pic-ex5-step2.jpg" alt="Apex Action configuration screenshot" class="instruction-image">
                             
                         </div>
                     </div>
@@ -907,7 +1405,7 @@
 
             <!-- Exercise 7 -->
             <section id="ex7" data-section="ex7">
-                <h2>7️⃣ Escalation (Human Handoff)</h2>
+                <h2>6️⃣ Escalation (Human Handoff)</h2>
                 <div class="hint">
                     <p>💡 Escalation is achieved by triggering an outbound Omni-Channel Flow configured to route the conversation to a human agent queue.</p>
                 </div>
@@ -975,7 +1473,7 @@
 
             <!-- Exercise 8 -->
             <section id="ex8" data-section="ex8">
-                <h2>8️⃣ Publish the Agentforce</h2>
+                <h2>7️⃣ Publish the Agentforce</h2>
 
                 <details class="step" data-step="ex8-step1" open>
                     <summary>

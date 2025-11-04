@@ -18,30 +18,30 @@ EXERCISE 1: EMPLOYEE AGENT:
 ✓ pic-ex1-step2.jpg     → Create Custom Topic configuration
 ✓ pic-ex1-step3.jpg     → Test standard agent actions in Service Console
 
-EXERCISE 2: FLOW (CASE CREATION):
+EXERCISE 2: SERVICE AGENT (ASA):
 ---------------------------------
-✓ pic-ex2-step1.jpg     → Flow Builder - Autolaunched Flow for Case Creation
-✓ pic-ex2-step2.jpg     → Agent Action configuration for Flow
+✓ pic-ex2-step1.jpg     → Create new Agentforce Service Agent
+✓ pic-ex2-step2.jpg     → Configure Permission Set for ASA User
 
-EXERCISE 3: PROMPT (ACCOUNT SUMMARY):
--------------------------------------
-✓ pic-ex3-step1.jpg     → Prompt Builder - Account Summary Template
-✓ pic-ex3-step2.jpg     → Agent Action configuration for Prompt
-
-EXERCISE 4: APEX CLASS:
------------------------
-✓ pic-ex4-step1.jpg     → ContactLookup Apex Class code
-✓ pic-ex4-step2.jpg     → Agent Action configuration for Apex
-
-EXERCISE 5: SERVICE AGENT (ASA):
---------------------------------
-✓ pic-ex5-step1.jpg     → Create new Agentforce Service Agent
-✓ pic-ex5-step2.jpg     → Case Management Custom Topic
-✓ pic-ex5-step3.jpg     → Account Management Custom Topic
-
-EXERCISE 6: KNOWLEDGE BASE:
+EXERCISE 3: KNOWLEDGE BASE:
 ---------------------------
-✓ pic-ex6-step1.jpg     → Configure Answer Questions with Knowledge (AQWK)
+✓ pic-ex3-step1.jpg     → Configure Answer Questions with Knowledge (AQWK)
+
+EXERCISE 4: FLOW (CASE CREATION):
+----------------------------------
+✓ pic-ex4-step1.jpg     → Flow Builder - Autolaunched Flow for Case Creation
+✓ pic-ex4-step2.jpg     → Custom Topic: Case Management configuration
+✓ pic-ex4-step3.jpg     → Agent Action configuration for Flow
+
+EXERCISE 5: APEX CLASS:
+-----------------------
+✓ pic-ex5-step1.jpg     → ContactLookup Apex Class code
+✓ pic-ex5-step2.jpg     → Agent Action configuration for Apex
+
+EXERCISE 6: PROMPT (ACCOUNT SUMMARY):
+--------------------------------------
+✓ pic-ex6-step1.jpg     → Prompt Builder - Account Summary Template
+✓ pic-ex6-step2.jpg     → Agent Action configuration for Prompt
 
 EXERCISE 7: ESCALATION:
 -----------------------
