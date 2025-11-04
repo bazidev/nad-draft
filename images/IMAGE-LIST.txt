@@ -32,6 +32,7 @@ EXERCISE 4: FLOW (CASE CREATION):
 ✓ pic-ex4-step1.jpg     → Flow Builder - Autolaunched Flow for Case Creation
 ✓ pic-ex4-step2.jpg     → Custom Topic: Case Management configuration
 ✓ pic-ex4-step3.jpg     → Agent Action configuration for Flow
+✓ pic-ex4-step4.jpg     → Testing Case Management topic in Agent Builder
 
 EXERCISE 5: APEX CLASS:
 -----------------------
@@ -41,7 +42,9 @@ EXERCISE 5: APEX CLASS:
 EXERCISE 6: PROMPT (ACCOUNT SUMMARY):
 --------------------------------------
 ✓ pic-ex6-step1.jpg     → Prompt Builder - Account Summary Template
-✓ pic-ex6-step2.jpg     → Agent Action configuration for Prompt
+✓ pic-ex6-step2.jpg     → Custom Topic: Account Management configuration
+✓ pic-ex6-step3.jpg     → Agent Action configuration for Prompt
+✓ pic-ex6-step4.jpg     → Testing Account Management topic in Agent Builder
 
 EXERCISE 7: ESCALATION:
 -----------------------
@@ -63,5 +66,5 @@ TIPS:
 • Crop to show only relevant UI elements
 • If an image is missing, a placeholder border will show
 
-Total Screenshots Needed: 27 (6 pre-work + 21 workshop)
+Total Screenshots Needed: 29 (6 pre-work + 23 workshop)
 
