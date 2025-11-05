@@ -45,8 +45,8 @@
             <a href="#ex2" data-section="ex2">1. Service Agent (ASA)</a>
             <a href="#ex3" data-section="ex3">2. Knowledge Base</a>
             <a href="#ex4" data-section="ex4">3. Custom Action - Flow</a>
-            <a href="#ex5" data-section="ex5">4. Custom Action - Apex</a>
-            <a href="#ex6" data-section="ex6">5. Custom Action - Prompt</a>
+            <a href="#ex6" data-section="ex6">4. Custom Action - Prompt</a>
+            <a href="#ex5" data-section="ex5">5. Custom Action - Apex</a>
             <a href="#ex7" data-section="ex7">6. Escalation</a>
             <a href="#ex8" data-section="ex8">7. Publishing the Agent</a>
         </nav>
@@ -769,7 +769,42 @@
                         
                         <div class="image-placeholder">
                             <img src="images/pic-ex3-step1.jpg" alt="Knowledge AQWK screenshot" class="instruction-image">
-                            
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex3-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Test the Knowledge Base Integration</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex3-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Test the <strong>General FAQ</strong> topic with the knowledge base data library.</p>
+                        
+                        <p>Go to the Agent Builder <strong>Conversation Preview</strong> and type:</p>
+                        <div class="code-block">
+                            <pre>Do you ship to Morocco?</pre>
+                        </div>
+
+                        <div class="hint">
+                            <p>💡 The agent should use RAG (Retrieval Augmented Generation) to search the knowledge articles and provide an accurate answer based on the shipping policies in your knowledge base.</p>
+                        </div>
+
+                        <div class="warning">
+                            <p>⚠️ Verify the agent reasoning shows the "Answer Questions with Knowledge" action being called and that the response includes relevant information from your knowledge articles.</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex3-step2.jpg" alt="Testing Knowledge Base screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
@@ -950,7 +985,24 @@
                         </div>
 
                         <div class="hint">
-                            <p><strong>Element 3: Get Messaging Session By Id</strong></p>
+                            <p><strong>Element 3: Assign Created Case To variable</strong></p>
+                            <ul>
+                                <li><strong>Type:</strong> Assignment</li>
+                                <li><strong>Description:</strong> Store the created case details in the output variable to be sent to the agent</li>
+                                <li><strong>Variable Assignments:</strong>
+                                    <ul style="margin-top: 8px;">
+                                        <li><strong>caseRecord.Case ID</strong> Equals <code>{!Create_New_Case.Id}</code></li>
+                                        <li><strong>caseRecord.Subject</strong> Equals <code>{!Create_New_Case.Subject}</code></li>
+                                        <li><strong>caseRecord.Status</strong> Equals <code>{!Create_New_Case.Status}</code></li>
+                                        <li><strong>caseRecord.Case Number</strong> Equals <code>{!Create_New_Case.CaseNumber}</code></li>
+                                        <li><strong>caseRecord.Description</strong> Equals <code>{!Create_New_Case.Description}</code></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="hint">
+                            <p><strong>Element 4: Get Messaging Session By Id</strong></p>
                             <ul>
                                 <li><strong>Type:</strong> Get Records</li>
                                 <li><strong>Object:</strong> Messaging Session</li>
@@ -960,7 +1012,7 @@
                         </div>
 
                         <div class="hint">
-                            <p><strong>Element 4: Messaging Session Found?</strong></p>
+                            <p><strong>Element 5: Messaging Session Found?</strong></p>
                             <ul>
                                 <li><strong>Type:</strong> Decision</li>
                                 <li><strong>Outcome "Yes":</strong> <code>{!Get_Messaging_Session_By_Id}</code> Is Null = False</li>
@@ -969,7 +1021,7 @@
                         </div>
 
                         <div class="hint">
-                            <p><strong>Element 5: Link Messaging Session to Case</strong> (Under "Yes" path)</p>
+                            <p><strong>Element 6: Link Messaging Session to Case</strong> (Under "Yes" path)</p>
                             <ul>
                                 <li><strong>Type:</strong> Assignment</li>
                                 <li><strong>Set:</strong> <code>{!Get_Messaging_Session_By_Id.CaseId}</code> = <code>{!Create_New_Case.Id}</code></li>
@@ -977,7 +1029,7 @@
                         </div>
 
                         <div class="hint">
-                            <p><strong>Element 6: Update Messaging Session</strong> (Under "Yes" path)</p>
+                            <p><strong>Element 7: Update Messaging Session</strong> (Under "Yes" path)</p>
                             <ul>
                                 <li><strong>Type:</strong> Update Records</li>
                                 <li><strong>Record:</strong> <code>{!Get_Messaging_Session_By_Id}</code></li>
@@ -1301,17 +1353,24 @@
                     <div class="step-content">
                         <p>Test the <strong>Coral Clouds Case Management</strong> topic directly in the Agent Builder.</p>
                         
-                        <h4>Test Prompt:</h4>
+                        <p>Go to the Agent Builder <strong>Conversation Preview</strong> and type:</p>
                         <div class="code-block">
                             <pre>I want to create a new case for my issue</pre>
                         </div>
 
                         <div class="hint">
-                            <p>💡 The agent should ask for your email and case details, then create a new case using the flow action you created.</p>
+                            <p>💡 The agent should ask for your email and case details. When prompted for email, use: <strong>sofiarodriguez@example.com</strong></p>
+                            <p>The agent will then create a new case using the flow action you created.</p>
+                        </div>
+                        <div class="warning">
+                            <p>⚠️ First verify the agent reasoning and then make sure the case is created in Salesforce.</p>
                         </div>
 
                         <div class="image-placeholder">
                             <img src="images/pic-ex4-step4.jpg" alt="Testing Case Management topic screenshot" class="instruction-image">
+                        </div>
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex4-step4-2.jpg" alt="Testing Case Management topic screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
@@ -1321,7 +1380,7 @@
 
             <!-- Exercise 6 -->
             <section id="ex6" data-section="ex6">
-                <h2>5️⃣ Custom Action - Prompt (Account Summary)</h2>
+                <h2>4️⃣ Custom Action - Prompt (Account Summary)</h2>
                 <div class="hint">
                     <p>💡 We will create a prompt to return a summary from CRM Data on-demand.</p>
                 </div>
@@ -1507,15 +1566,12 @@ When generating the HTML, you must use semantic elements whenever possible:
                             </tbody>
                         </table>
 
-                        <h4>Attach Actions:</h4>
-                        <p>Select the following Custom Actions:</p>
-                        <ul>
-                            <li><strong>From Exercise 4:</strong> Get Contact Record By Email</li>
-                            <li><strong>From Exercise 5:</strong> Account Summary</li>
-                        </ul>
+                       <div class="warning">
+                            <p>⚠️ Don't add any actions to the topic that's what we will do next</p>
+                        </div>
 
                         <div class="image-placeholder">
-                            <img src="images/pic-ex6-step2.jpg" alt="Custom Topic Account Management screenshot" class="instruction-image">
+                            <img src="images/pic-ex3-step2.jpg" alt="Account Management Topic configuration screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
@@ -1525,7 +1581,7 @@ When generating the HTML, you must use semantic elements whenever possible:
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">3</span>
-                                <span class="step-title">Create the Agentforce Custom Action</span>
+                                <span class="step-title">Create the Agentforce Custom Action for Prompt Template</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex6-step3')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1535,11 +1591,80 @@ When generating the HTML, you must use semantic elements whenever possible:
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>In Setup, open Agent Actions and click New Agent Action for the Prompt Template.</p>
+                        <p>Now add the Prompt Template action to the <strong>Coral Clouds Account Management</strong> topic:</p>
+                        
+                        <ol>
+                            <li>Open the <strong>Coral Clouds Account Management</strong> topic</li>
+                            <li>Navigate to <strong>This Topic's Actions</strong></li>
+                            <li>Click <strong>Create New Action</strong></li>
+                        </ol>
+
+                        <h4>Action Configuration:</h4>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Reference Action Type</strong></td>
+                                    <td>Prompt Template</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Prompt Template')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reference Action</strong></td>
+                                    <td>Coral Clouds Account Summary</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral Clouds Account Summary')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action Label</strong></td>
+                                    <td>Account Summary</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Account Summary')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action API Name</strong></td>
+                                    <td>Account_Summary</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Account_Summary')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action Instructions</strong></td>
+                                    <td>This action will summarise a specific customer Account. This action is used when a customer asks for their account summary. Can be triggered with phrases like 'Summarise My Account,' 'please provide a summary of my account'.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'This action will summarise a specific customer Account. This action is used when a customer asks for their account summary. Can be triggered with phrases like \'Summarise My Account,\' \'please provide a summary of my account\'.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex6-step3.jpg" alt="Prompt Action configuration screenshot" class="instruction-image">
-                            
+                            <img src="images/pic-ex3-step2.jpg" alt="Prompt Action configuration screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
@@ -1567,7 +1692,13 @@ When generating the HTML, you must use semantic elements whenever possible:
                         </div>
 
                         <div class="hint">
-                            <p>💡 The agent should identify your email, retrieve your contact record, and then provide an account summary using the prompt template.</p>
+                            <p>💡 When the agent asks for your email, use: <strong>sofiarodriguez@example.com</strong></p>
+                        </div>
+
+                        <div class="warning">
+                            <p>⚠️ The Agent won't be able to summarize the account!</p>
+                            <p>If you read the instructions carefully! You'll see that we tell the Agent to use <strong>Identify the customer by email</strong> while we don't have an action for that yet.</p>
+                            <p>That will be the next step to fix our agent!</p>
                         </div>
 
                         <div class="image-placeholder">
@@ -1581,7 +1712,7 @@ When generating the HTML, you must use semantic elements whenever possible:
 
             <!-- Exercise 5 -->
             <section id="ex5" data-section="ex5">
-                <h2>4️⃣ Custom Action - Invocable Apex class</h2>
+                <h2>5️⃣ Custom Action - Invocable Apex class</h2>
                 <div class="hint">
                     <p>💡 This action retrieves the Contact and Account ID based on the customer's email.</p>
                 </div>
@@ -1601,11 +1732,93 @@ When generating the HTML, you must use semantic elements whenever possible:
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>Create a new Apex Class named ContactLookup. This class uses the @InvocableMethod annotation to retrieve a contact's full name and account ID using their email address.</p>
+                        <p>Create a new Apex Class named <strong>ContactLookup</strong>. This class will be called by Agentforce to get the customer contact record by email.</p>
+                        
+                        <p>In <strong>Setup > Developer Console</strong>, create a new Apex Class:</p>
+
+                        <h4>Apex Class Code:</h4>
+                        <div class="code-block" style="max-height: 500px; overflow-y: auto;">
+                            <pre>/**
+ * @description       : Class to perform contact lookup by email address.
+ *                      Returns full name and account ID for the matched contact.
+ * @author            : (Ayoub OUARTI) aouarti@salesforce.com
+ * @group             : Salesforce
+ * @last modified on  : 03-20-2025
+ * @last modified by  : (Ayoub OUARTI) aouarti@salesforce.com
+**/
+public class ContactLookup {
+    
+    public class Input {
+        @InvocableVariable(required=true)
+        public String emailAddress;
+    }
+    
+    public class Output {
+        @InvocableVariable
+        public String fullName;
+        @InvocableVariable
+        public Id accountId;
+    }
+    
+    @InvocableMethod(label='Get Contact Record By Email')
+    public static List&lt;Output&gt; getContactByEmail(List&lt;Input&gt; inputs) {
+        List&lt;Output&gt; results = new List&lt;Output&gt;();
+        
+        try {
+            if (inputs == null || inputs.isEmpty()) {
+                System.debug('No input provided for contact lookup.');
+                return results;
+            }
+            
+            Set&lt;String&gt; emailAddresses = new Set&lt;String&gt;();
+            for (Input input : inputs) {
+                if (String.isNotBlank(input.emailAddress)) {
+                    emailAddresses.add(input.emailAddress.trim().toLowerCase());
+                }
+            }
+            
+            if (emailAddresses.isEmpty()) {
+                System.debug('No valid email addresses found in the input list.');
+                return results;
+            }
+            
+            Map&lt;String, Contact&gt; contactMap = new Map&lt;String, Contact&gt;();
+            for (Contact contact : [
+                SELECT Id, FirstName, LastName, AccountId, Email 
+                FROM Contact 
+                WHERE Email IN :emailAddresses
+            ]) {
+                contactMap.put(contact.Email.toLowerCase(), contact);
+            }
+            
+            for (Input input : inputs) {
+                Contact matchedContact = contactMap.get(input.emailAddress?.trim().toLowerCase());
+                if (matchedContact != null) {
+                    Output output = new Output();
+                    output.fullName = matchedContact.FirstName + ' ' + matchedContact.LastName;
+                    output.accountId = matchedContact.AccountId;
+                    results.add(output);
+                } else {
+                    System.debug('No contact found for email: ' + input.emailAddress);
+                }
+            }
+            
+        } catch (Exception e) {
+            System.debug('Error occurred in getContactByEmail' +  e.getMessage());
+            throw new AuraHandledException('An unexpected error occurred. Please contact your administrator.');
+        }
+        
+        return results;
+    }
+}</pre>
+                        </div>
+                        
+                        <div class="hint">
+                            <p>💡 <strong>Save</strong> and <strong>Deploy</strong> the Apex class.</p>
+                        </div>
                         
                         <div class="image-placeholder">
                             <img src="images/pic-ex5-step1.jpg" alt="Apex Class screenshot" class="instruction-image">
-                            
                         </div>
                     </div>
                 </details>
@@ -1615,7 +1828,7 @@ When generating the HTML, you must use semantic elements whenever possible:
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">2</span>
-                                <span class="step-title">Create the Agentforce Custom Action</span>
+                                <span class="step-title">Grant Apex Class Access to Permission Set</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex5-step2')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1625,11 +1838,163 @@ When generating the HTML, you must use semantic elements whenever possible:
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>In Setup, open Agent Actions and click New Agent Action for the Apex class.</p>
+                        <p>Grant the Apex class access to the <strong>Coral Cloud Agent User</strong> Permission Set (created in Pre-Work).</p>
+                        
+                        <ol>
+                            <li>Go to <strong>Setup > Permission Sets</strong></li>
+                            <li>Open the <strong>Coral Cloud Agent User</strong> Permission Set</li>
+                            <li>Click <strong>Apex Class Access</strong></li>
+                            <li>Click <strong>Edit</strong></li>
+                            <li>Add <strong>ContactLookup</strong> to Enabled Apex Classes</li>
+                            <li>Click <strong>Save</strong></li>
+                        </ol>
+                        
+                        <div class="hint">
+                            <p>💡 This ensures the Agentforce Service Agent has permission to execute the ContactLookup Apex class.</p>
+                        </div>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex5-step2.jpg" alt="Apex Action configuration screenshot" class="instruction-image">
-                            
+                            <img src="images/pic-ex5-step2.jpg" alt="Permission Set Apex Access screenshot" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex5-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Create the Agentforce Custom Action</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex5-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Now add the Apex action to the <strong>Coral Clouds Account Management</strong> topic (same topic from previous exercise):</p>
+                        
+                        <ol>
+                            <li>Open the <strong>Coral Clouds Account Management</strong> topic</li>
+                            <li>Navigate to <strong>This Topic's Actions</strong></li>
+                            <li>Click <strong>Create New Action</strong></li>
+                        </ol>
+
+                        <h4>Action Configuration:</h4>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Reference Action Type</strong></td>
+                                    <td>Apex</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Apex')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reference Action Category</strong></td>
+                                    <td>Invocable Method</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Invocable Method')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reference Action</strong></td>
+                                    <td>Get Contact Record By Email</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Get Contact Record By Email')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action Label</strong></td>
+                                    <td>Get Contact Record By Email</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Get Contact Record By Email')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action API Name</strong></td>
+                                    <td>Get_Contact_Record_By_Email</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Get_Contact_Record_By_Email')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agent Action Instructions</strong></td>
+                                    <td>This action will retrieve a contact record associated with the email address, the contact salesforce record will hold the fullname of the customer and accountId.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'This action will retrieve a contact record associated with the email address, the contact salesforce record will hold the fullname of the customer and accountId.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex5-step3.jpg" alt="Apex Action configuration screenshot" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex5-step4" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">4</span>
+                                <span class="step-title">Test the Complete Account Management Topic</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex5-step4')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Now test the <strong>Coral Clouds Account Management</strong> topic again with both actions configured.</p>
+                        
+                        <p>Go to the Agent Builder <strong>Conversation Preview</strong> and type:</p>
+                        <div class="code-block">
+                            <pre>I want my account summary please</pre>
+                        </div>
+
+                        <div class="hint">
+                            <p>💡 The agent will ask for your email. Use: <strong>sofiarodriguez@example.com</strong></p>
+                            <p>This time, the agent should successfully identify your email, retrieve your contact record using the Apex action, and then provide a complete account summary using the Prompt Template action.</p>
+                        </div>
+
+                        <div class="warning">
+                            <p>⚠️ Verify the agent reasoning shows both actions being called in sequence, and that the account summary is displayed correctly.</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex5-step4.jpg" alt="Testing Account Management topic with both actions screenshot" class="instruction-image">
                         </div>
                     </div>
                 </details>
