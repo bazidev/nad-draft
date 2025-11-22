@@ -48,7 +48,7 @@
             <a href="#ex6" data-section="ex6">3. Custom Action - Prompt</a>
             <a href="#ex5" data-section="ex5">4. Custom Action - Apex</a>
             <a href="#ex3" data-section="ex3">5. Agentforce Search & RAG</a>
-            <a href="#ex7" data-section="ex7">6. Escalation</a>
+            <a href="#ex7" data-section="ex7">6. Service deployement & Escalation</a>
             <a href="#ex8" data-section="ex8">7. Publishing the Agent</a>
             <a href="#ex9" data-section="ex9">8. Testing</a>
         </nav>
@@ -2327,10 +2327,13 @@ Your tone should be friendly and informative, as if you were speaking directly t
 
             <!-- Exercise 7 -->
             <section id="ex7" data-section="ex7">
-                <h2>6️⃣ Escalation (Human Handoff)</h2>
+                <h2>6️⃣ Service Deployment & Escalation</h2>
                 <div class="hint">
-                    <p>💡 <strong>Escalation</strong> is a standard hidden action used when referencing the escalation process in a custom topic instruction. Agentforce will trigger the outbound Omni-Channel flow, which must be pre-configured and linked to Agentforce in the settings.</p>
-                    <p>In this use case, we will be using the Escalation standard topic.</p>
+                    <p>💡 In this exercise you will configure a Service deployment that will expose the Coral Cloud Agent to your customers directly. There are quite a few pieces that need to come together to expose an agent, and this is brought together using Omni-Channel in Service Cloud.</p>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="images/pic-ex7-overview.jpg" alt="Service Deployment Overview" class="instruction-image">
                 </div>
 
                 <details class="step" data-step="ex7-step1" open>
@@ -2338,7 +2341,7 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         <div class="step-header">
                             <div class="step-left">
                                 <span class="step-number">1</span>
-                                <span class="step-title">Create an Outbound Omni-Channel Flow</span>
+                                <span class="step-title">Enable Messaging</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex7-step1')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2348,15 +2351,566 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </div>
                     </summary>
                     <div class="step-content">
-                        <p>Create an Outbound Omni-channel flow that will route the conversation to a human agent in case of escalation.</p>
-                        <p>⚠️ <strong>Make sure that Omni-channel is Enabled</strong></p>
-                        <ul>
-                            <li>From <strong>Setup → Flows → New Flow → Start From Scratch → Next → Omni-channel Flow → Create</strong></li>
-                            <li><strong>Name:</strong> Agentforce - Route to Human Agents</li>
-                            <li><strong>Description:</strong> This outbound omni-channel flow will be used to route conversations to human agents.</li>
-                        </ul>
+                        <p>Messaging enables you to create channels to handle messages received from your customers. In this example, we will use messaging to enable customers to engage with the Coral Cloud Agent.</p>
                         
-                        <p><strong>Add the following variable:</strong></p>
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Messaging Settings</strong>.</li>
+                            <li>Set <strong>Messaging</strong> to <strong>On</strong>.</li>
+                        </ol>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step2" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">2</span>
+                                <span class="step-title">Create a Routing Configuration</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step2')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create a routing configuration to define how work items are distributed to agents.</p>
+                        
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Routing Configurations</strong>.</li>
+                            <li>Click on <strong>New</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Routing Configuration Name</strong></td>
+                                    <td>Agent Routing Configuration</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent Routing Configuration')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Developer Name</strong></td>
+                                    <td>Agent_Routing_Configuration</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent_Routing_Configuration')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Overflow Assignee</strong></td>
+                                    <td>Leave Blank</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Routing Priority</strong></td>
+                                    <td>1</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, '1')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Routing Model</strong></td>
+                                    <td>Most Available</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Push Time-out (seconds)</strong></td>
+                                    <td>Leave Blank</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Capacity Type</strong></td>
+                                    <td>Keep default: Inherited</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Units of Capacity</strong></td>
+                                    <td>2</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, '2')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Percentage of Capacity</strong></td>
+                                    <td>Leave Blank</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="4">
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step2.jpg" alt="Create Routing Configuration" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step3" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">3</span>
+                                <span class="step-title">Create a Queue</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step3')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create a queue to organize and manage customer messaging sessions.</p>
+                        
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Queues</strong>.</li>
+                            <li>Click on <strong>New</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Label</strong></td>
+                                    <td>Messaging Queue</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging Queue')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Queue Name</strong></td>
+                                    <td>Messaging_Queue</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging_Queue')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Queue Email</strong></td>
+                                    <td>Leave Blank</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Send Email to Members</strong></td>
+                                    <td>Keep default: False</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Routing Configuration</strong></td>
+                                    <td>Agent_Routing_Configuration</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent_Routing_Configuration')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Selected Objects</strong></td>
+                                    <td>Messaging Session</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Selected Members</strong></td>
+                                    <td>Admin User or Your org Admin username</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="4">
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step3.jpg" alt="Create Queue" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step4" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">4</span>
+                                <span class="step-title">Create Presence Status</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step4')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Presence Statuses</strong>.</li>
+                            <li>Click on <strong>New</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Label</strong></td>
+                                    <td>Available</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Available')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Developer Name</strong></td>
+                                    <td>Available</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Available')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Options</strong></td>
+                                    <td>Keep default: Online</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Selected Channels</strong></td>
+                                    <td>Messaging</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="4">
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step5" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">5</span>
+                                <span class="step-title">Create a Presence Status Permission Set</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step5')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Permission Sets</strong>.</li>
+                            <li>Click on <strong>New</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Label</strong></td>
+                                    <td>Coral Cloud Service Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral Cloud Service Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Name</strong></td>
+                                    <td>Coral_Cloud_Service_Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Coral_Cloud_Service_Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Description</strong></td>
+                                    <td>This permission set grants access to messaging and the Available Messaging Status.</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'This permission set grants access to messaging and the Available Messaging Status.')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>License</strong></td>
+                                    <td>Keep default: None</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="4">
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Under Apps, click on <strong>Service Presence Statuses Access</strong>.</li>
+                            <li>Click on <strong>Edit</strong>.</li>
+                            <li>Add <strong>Available</strong> to <strong>Enabled Service Presence Statuses</strong>.</li>
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Click on <strong>Manage Assignments</strong>.</li>
+                            <li>Click on <strong>Add Assignments</strong>.</li>
+                            <li>Check the box next to <strong>Admin User</strong> or your org username.</li>
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step6" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">6</span>
+                                <span class="step-title">Create a Presence Configuration</span>
+                        </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step6')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Presence Configuration</strong>.</li>
+                            <li>Click on <strong>New</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Presence Configuration Name</strong></td>
+                                    <td>Messaging Presence Configuration</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging Presence Configuration')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Developer Name</strong></td>
+                                    <td>Messaging_Presence_Configuration</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging_Presence_Configuration')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Capacity</strong></td>
+                                    <td>20</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, '20')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Other values</strong></td>
+                                    <td>Leave to defaults</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="4">
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step7" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">7</span>
+                                <span class="step-title">Create a Messaging Channel</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step7')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Messaging Settings</strong>.</li>
+                            <li>Click on <strong>New Channel</strong>.</li>
+                            <li>Click on <strong>Start</strong>.</li>
+                            <li>Select <strong>Enhanced chat</strong>.</li>
+                            <li>Set field values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Channel Name</strong></td>
+                                    <td>Agent Channel</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent Channel')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Developer Name</strong></td>
+                                    <td>Agent_Channel</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent_Channel')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Deployement Type</strong></td>
+                                    <td>Web</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Domain</strong></td>
+                                    <td>** Copy Domain from Site and use it **</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Routing Type</strong></td>
+                                    <td>Agentforce Service Agent</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agentforce Service Agent</strong></td>
+                                    <td>Coral Clouds Service Agent</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fallback Queue</strong></td>
+                                    <td>Messaging Queue</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="6">
+                            <li>Click on <strong>Save</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step1-7.jpg" alt="Create Messaging Channel" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+<!--
+                <details class="step" data-step="ex7-step8" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">8</span>
+                                <span class="step-title">Create the Route to Agent Flow</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step8')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <ol>
+                            <li>In <strong>Setup</strong>, search for <strong>Flow</strong> in Quick Find and select <strong>Flows</strong>.</li>
+                            <li>Click <strong>New Flow</strong>.</li>
+                            <li>Click on <strong>Start From Scratch</strong>.</li>
+                            <li>Click on <strong>Next</strong>.</li>
+                            <li>Select <strong>Omni-Channel Flow</strong> and click <strong>Create</strong>.</li>
+                            <li>Open the <strong>Toolbox</strong> on the right hand side of the builder.</li>
+                            <li>Open the <strong>Resources</strong> panel, by clicking the sidebar icon to the left of the Select Elements button.</li>
+                            <li>Using the <strong>New Resource</strong> button, create a variable as follows:</li>
+                        </ol>
+                        
                         <table>
                             <thead>
                                 <tr>
@@ -2371,29 +2925,161 @@ Your tone should be friendly and informative, as if you were speaking directly t
                             <tbody>
                                 <tr>
                                     <td>Variable</td>
-                                    <td><code>recordId</code></td>
-                                    <td>The messaging record Id</td>
+                                    <td>recordId</td>
+                                    <td>The recordId is used to assign a messaging session to an Agent.</td>
                                     <td>Text</td>
                                     <td>✅</td>
-                                    <td>❌</td>
+                                    <td>Unchecked</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ol start="11">
+                            <li>Mouse over the circle under the <strong>Get Records</strong> element, click <strong>+</strong>, and select <strong>Route Work</strong>.</li>
+                            <li>In the right panel, configure the Route Work action as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Label</strong></td>
+                                    <td>Route to Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route to Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Name</strong></td>
+                                    <td>Route_to_Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route_to_Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Description</strong></td>
+                                    <td>Route the messaging session to the Coral Cloud Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route the messaging session to the Coral Cloud Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>How Many Work Records to Route?</strong></td>
+                                    <td>Keep default: Single</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Record Id Variable</strong></td>
+                                    <td>$recordId</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, '$recordId')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Service Channel</strong></td>
+                                    <td>Messaging</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Route To</strong></td>
+                                    <td>Agentforce Service Agent</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Agentforce Service Agent</strong></td>
+                                    <td>Coral Cloud Agent</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fallback Queue</strong></td>
+                                    <td>Select Queue</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fallback Queue Id</strong></td>
+                                    <td>Messaging Queue</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                         
+                        <ol start="13">
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Set the values as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Flow Label</strong></td>
+                                    <td>Route to Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route to Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flow API Name</strong></td>
+                                    <td>Route_to_Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route_to_Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="15">
+                            <li>Click on <strong>Activate</strong>.</li>
+                        </ol>
+                        
                         <div class="image-placeholder">
-                            <img src="images/pic-ex7-step1.jpg" alt="Omni-Channel Flow screenshot" class="instruction-image">
+                            <img src="images/pic-ex7-step2-1.jpg" alt="Route to Agent Flow" class="instruction-image">
                         </div>
                     </div>
                 </details>
 
-                <details class="step" data-step="ex7-step2" open>
+                <details class="step" data-step="ex7-step9" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">2</span>
-                                <span class="step-title">Attach this flow to the Agentforce</span>
+                                <span class="step-number">9</span>
+                                <span class="step-title">Add the Route-to-Agent Flow to the Messaging Configuration</span>
                             </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex7-step2')">
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step9')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -2401,25 +3087,70 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </div>
                     </summary>
                     <div class="step-content">
-                        <ul>
-                            <li>Go to <strong>Setup > Coral Clouds Service Agent > Connections</strong> tab</li>
-                            <li>Under <strong>Outbound Omni-Channel Flow</strong>, select the flow you just created: <strong>Agentforce - Route to Human Agents</strong></li>
-                            <li>This links the Agent's standard escalation topic (which is hidden) to your human handoff flow</li>
-                        </ul>
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Messaging Settings</strong>.</li>
+                            <li>Open the <strong>Agent Channel</strong>.</li>
+                            <li>Click on the <strong>Edit</strong> button under Omni-Channel Settings.</li>
+                            <li>Configure the settings as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Routing Type</strong></td>
+                                    <td>Omni-Flow</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flow Definition</strong></td>
+                                    <td>Route to Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route to Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fallback Queue</strong></td>
+                                    <td>Messaging Queue</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging Queue')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="5">
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Click on <strong>Activate</strong>.</li>
+                            <li>Accept the <strong>Terms and Conditions</strong>.</li>
+                        </ol>
+                        
                         <div class="image-placeholder">
-                            <img src="images/pic-ex7-step2.jpg" alt="Attach Flow screenshot" class="instruction-image">
+                            <img src="images/pic-ex7-step3-1.jpg" alt="Update Messaging Channel" class="instruction-image">
                         </div>
                     </div>
                 </details>
 
-                <details class="step" data-step="ex7-step3" open>
+                <details class="step" data-step="ex7-step10" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">3</span>
-                                <span class="step-title">Add Escalation Topic</span>
+                                <span class="step-number">10</span>
+                                <span class="step-title">Create Embedded Service Deployment</span>
                             </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex7-step3')">
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step10')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -2427,27 +3158,86 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </div>
                     </summary>
                     <div class="step-content">
-                        <ul>
-                            <li>Go to <strong>Setup > Coral Clouds Service Agent > Topics</strong></li>
-                            <li>Click <strong>Add Topics</strong></li>
-                            <li>From the Asset Library, search for and add the <strong>Escalation</strong> topic</li>
-                            <li>This standard topic enables the agent to recognize escalation requests</li>
-                        </ul>
+                        <ol>
+                            <li>In the <strong>Setup Quick Find</strong>, search for and select <strong>Embedded Service Deployments</strong>.</li>
+                            <li>Click on <strong>New Deployment</strong>.</li>
+                            <li>Select <strong>Messaging for In-App and Web</strong>.</li>
+                            <li>Click on <strong>Next</strong>.</li>
+                            <li>Select <strong>Web</strong>.</li>
+                            <li>Configure the deployment as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Embedded Service Deployment Name</strong></td>
+                                    <td>Agent Web Deployment</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent Web Deployment')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Name</strong></td>
+                                    <td>Agent_Web_Deployment</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent_Web_Deployment')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Domain</strong></td>
+                                    <td>my.site.com</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'my.site.com')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Messaging Channel</strong></td>
+                                    <td>Agent Channel</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agent Channel')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="7">
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Once the save has been completed, Click on <strong>Publish</strong>.</li>
+                        </ol>
                         
                         <div class="image-placeholder">
-                            <img src="images/pic-ex7-step3.jpg" alt="Add Escalation Topic screenshot" class="instruction-image">
+                            <img src="images/pic-ex7-step4-1.jpg" alt="Create Embedded Service Deployment" class="instruction-image">
                         </div>
                     </div>
                 </details>
-
-                <details class="step" data-step="ex7-step4" open>
+-->
+                <details class="step" data-step="ex7-step11" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">4</span>
-                                <span class="step-title">Test the Escalation Flow</span>
+                                <span class="step-number">11</span>
+                                <span class="step-title">Add Escalation Topic to the Agent</span>
                             </div>
-                            <button class="status-button" onclick="toggleStep(event, 'ex7-step4')">
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step11')">
                                 <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -2455,30 +3245,243 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </div>
                     </summary>
                     <div class="step-content">
-                        <ul>
-                            <li>Open the <strong>Agent Builder</strong> for Coral Clouds Service Agent</li>
-                            <li>In the test panel, type one of these prompts:</li>
-                        </ul>
+                        <p>Add the standard Escalation topic from the Asset Library to enable the agent to recognize when customers need human assistance.</p>
                         
-                        <p><strong>Example Prompt 1:</strong></p>
-                        <div class="code-block">
-                            <pre>I need to speak with a human agent</pre>
-                        </div>
-                        
-                        <p><strong>Example Prompt 2:</strong></p>
-                        <div class="code-block">
-                            <pre>Escalate me</pre>
-                        </div>
-                        
-                        <ul>
-                            <li>Check the <strong>Reasoning Engine</strong> output to verify that the agent picked <strong>Escalation</strong> as the topic</li>
-                        </ul>
+                        <ol>
+                            <li>Open your agent in Agent Builder.</li>
+                            <li>Navigate to the <strong>Topics</strong> tab.</li>
+                            <li>Click <strong>Add Topics</strong>.</li>
+                            <li>In the Asset Library, search for <strong>Escalation</strong>.</li>
+                            <li>Select the <strong>Escalation</strong> topic and click <strong>Add</strong>.</li>
+                        </ol>
                         
                         <div class="hint">
-                            <p>ℹ️ <strong>Note:</strong> The actual escalation to an Omni-channel agent won't occur in the Agent Builder because it cannot establish a real Omni-channel connection. However, seeing the Escalation topic selected in the reasoning engine confirms that the agent is correctly identifying the escalation request and attempting to trigger the outbound flow.</p>
+                            <p>💡 The Escalation topic is a standard hidden action that allows the agent to recognize when customers request to speak with a human agent.</p>
                         </div>
                     </div>
                 </details>
+
+                <details class="step" data-step="ex7-step12" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">12</span>
+                                <span class="step-title">Create Outbound Omni-Channel Flow for Human Handoff</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step12')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Create an Outbound Omni-Channel flow to route escalated conversations to human agents.</p>
+                        
+                        <ol>
+                            <li>In <strong>Setup</strong>, search for <strong>Flow</strong> in Quick Find and select <strong>Flows</strong>.</li>
+                            <li>Click <strong>New Flow</strong>.</li>
+                            <li>Click on <strong>Start From Scratch</strong>.</li>
+                            <li>Click on <strong>Next</strong>.</li>
+                            <li>Select <strong>Omni-Channel Flow</strong> and click <strong>Create</strong>.</li>
+                            <li>Open the <strong>Resources</strong> panel and click <strong>New Resource</strong>.</li>
+                            <li>Create a variable as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Resource Type</th>
+                                    <th>API Name</th>
+                                    <th>Description</th>
+                                    <th>Data Type</th>
+                                    <th>Available for input</th>
+                                    <th>Available for output</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Variable</td>
+                                    <td>recordId</td>
+                                    <td>The messaging record Id for escalation</td>
+                                    <td>Text</td>
+                                    <td>✅</td>
+                                    <td>Unchecked</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="8">
+                            <li>Mouse over the circle under the <strong>Start</strong> element, click <strong>+</strong>, and select <strong>Route Work</strong>.</li>
+                            <li>Configure the Route Work element as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Label</strong></td>
+                                    <td>Route to Human Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route to Human Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>API Name</strong></td>
+                                    <td>Route_to_Human_Agent</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route_to_Human_Agent')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Description</strong></td>
+                                    <td>Route escalated conversations to human agents</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Route escalated conversations to human agents')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>How Many Work Records to Route?</strong></td>
+                                    <td>Single</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Record Id Variable</strong></td>
+                                    <td>$recordId</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, '$recordId')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Service Channel</strong></td>
+                                    <td>Messaging</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Route To</strong></td>
+                                    <td>Queue</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Queue</strong></td>
+                                    <td>Messaging Queue</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Messaging Queue')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="10">
+                            <li>Click on <strong>Save</strong>.</li>
+                            <li>Set the flow name as follows:</li>
+                        </ol>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Flow Label</strong></td>
+                                    <td>Agentforce - Route to Human Agents</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agentforce - Route to Human Agents')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flow API Name</strong></td>
+                                    <td>Agentforce_Route_to_Human_Agents</td>
+                                    <td><button class="copy-btn" onclick="copyValue(this, 'Agentforce_Route_to_Human_Agents')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <ol start="12">
+                            <li>Click on <strong>Activate</strong>.</li>
+                        </ol>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step5-2.jpg" alt="Outbound Flow for Escalation" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <details class="step" data-step="ex7-step13" open>
+                    <summary>
+                        <div class="step-header">
+                            <div class="step-left">
+                                <span class="step-number">13</span>
+                                <span class="step-title">Connect Outbound Flow to Agent</span>
+                            </div>
+                            <button class="status-button" onclick="toggleStep(event, 'ex7-step13')">
+                                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </summary>
+                    <div class="step-content">
+                        <p>Link the outbound flow to the agent's escalation capability.</p>
+                        
+                        <ol>
+                            <li>Go to <strong>Setup</strong> and open your <strong>Coral Cloud Agent</strong>.</li>
+                            <li>Click on the <strong>Connections</strong> tab.</li>
+                            <li>Under <strong>Outbound Omni-Channel Flow</strong>, select <strong>Agentforce - Route to Human Agents</strong>.</li>
+                            <li>Click <strong>Save</strong>.</li>
+                        </ol>
+                        
+                        <div class="hint">
+                            <p>💡 This links the agent's standard Escalation topic to your outbound flow, enabling seamless handoff to human agents when customers request escalation.</p>
+                        </div>
+                        
+                        <div class="image-placeholder">
+                            <img src="images/pic-ex7-step5-3.jpg" alt="Connect Outbound Flow" class="instruction-image">
+                        </div>
+                    </div>
+                </details>
+
+                <div class="success">
+                    <p>✅ <strong>Summary:</strong> You have just created a custom service agent that can be used to interact with your customers. Next, we will use the service deployment capabilities in Service Cloud to deploy the Agent to a customer-facing Experience Cloud site.</p>
+                </div>
             </section>
 
             <hr>
@@ -2489,7 +3492,7 @@ Your tone should be friendly and informative, as if you were speaking directly t
                 <div class="hint">
                     <p>💡 In this exercise, we will expose our Agentforce service agent on an Experience Cloud site.</p>
                 </div>
-
+<!--
                 <details class="step" data-step="ex8-step1" open>
                     <summary>
                         <div class="step-header">
@@ -2588,12 +3591,12 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </div>
                     </div>
                 </details>
-
+-->
                 <details class="step" data-step="ex8-step4" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">4</span>
+                                <span class="step-number">1</span>
                                 <span class="step-title">Test the Deployment</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex8-step4')">
@@ -2623,7 +3626,7 @@ Your tone should be friendly and informative, as if you were speaking directly t
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">5</span>
+                                <span class="step-number">2</span>
                                 <span class="step-title">Add the MIAW Channel on the Experience Site</span>
                             </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex8-step5')">
@@ -2650,11 +3653,12 @@ Your tone should be friendly and informative, as if you were speaking directly t
                     </div>
                 </details>
 
+                <!--
                 <details class="step" data-step="ex8-step6" open>
                     <summary>
                         <div class="step-header">
                             <div class="step-left">
-                                <span class="step-number">6</span>
+                                <span class="step-number">3</span>
                                 <span class="step-title">Add User to Messaging Queue</span>
                         </div>
                             <button class="status-button" onclick="toggleStep(event, 'ex8-step6')">
@@ -2677,7 +3681,9 @@ Your tone should be friendly and informative, as if you were speaking directly t
                         </ul>
                     </div>
                 </details>
+                -->
             </section>
+            
 
             <hr>
 
